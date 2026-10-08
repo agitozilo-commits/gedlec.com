@@ -1,984 +1,1250 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>FikirKutusu — Güncel, Faydalı ve İlham Veren Yazılar</title>
-  <meta name="description" content="Güncel fikirler, teknoloji, yaşam, para ve keşfedilmeye değer konular üzerine Türkçe blog.">
-
-  <style>
-    :root {
-      --bg: #f7f7f5;
-      --card: #ffffff;
-      --text: #171717;
-      --muted: #707070;
-      --border: #e8e8e8;
-      --accent: #635bff;
-      --accent-dark: #5048dc;
-      --dark: #111111;
-      --radius: 20px;
-      --max-width: 1180px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                   Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      width: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    .container {
-      width: min(100% - 40px, var(--max-width));
-      margin: auto;
-    }
-
-    /* HEADER */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(247, 247, 245, 0.9);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(0,0,0,.06);
-    }
-
-    .navbar {
-      height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
-
-    .logo {
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    nav {
-      display: flex;
-      gap: 28px;
-      align-items: center;
-    }
-
-    nav a {
-      font-size: 14px;
-      font-weight: 600;
-      color: #555;
-      transition: .2s;
-    }
-
-    nav a:hover {
-      color: var(--text);
-    }
-
-    .search-btn {
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--border);
-      background: white;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 17px;
-      transition: .2s;
-    }
-
-    .search-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    /* HERO */
-
-    .hero {
-      padding: 90px 0 60px;
-    }
-
-    .hero-content {
-      max-width: 780px;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #ebe9ff;
-      color: var(--accent);
-      padding: 7px 13px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(42px, 7vw, 78px);
-      line-height: 1.02;
-      letter-spacing: -4px;
-      margin-bottom: 25px;
-    }
-
-    .hero h1 span {
-      color: var(--accent);
-    }
-
-    .hero p {
-      max-width: 650px;
-      font-size: 19px;
-      color: var(--muted);
-    }
-
-    /* FEATURED */
-
-    .featured {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      min-height: 430px;
-      background: var(--dark);
-      color: white;
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 80px;
-    }
-
-    .featured-image {
-      min-height: 430px;
-      background:
-        linear-gradient(135deg, rgba(99,91,255,.3), rgba(0,0,0,.3)),
-        url("https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80")
-        center/cover;
-    }
-
-    .featured-content {
-      padding: 55px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .featured-content .tag {
-      background: rgba(255,255,255,.12);
-      color: white;
-      width: fit-content;
-    }
-
-    .featured-content h2 {
-      font-size: 38px;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 20px;
-    }
-
-    .featured-content p {
-      color: #bcbcbc;
-      margin-bottom: 28px;
-    }
-
-    .read-more {
-      display: inline-flex;
-      width: fit-content;
-      padding: 12px 20px;
-      border-radius: 10px;
-      background: white;
-      color: black;
-      font-weight: 700;
-      font-size: 14px;
-      transition: .2s;
-    }
-
-    .read-more:hover {
-      transform: translateY(-2px);
-    }
-
-    /* SECTION */
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 28px;
-    }
-
-    .section-header h2 {
-      font-size: 30px;
-      letter-spacing: -1px;
-    }
-
-    .section-header a {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    /* CATEGORIES */
-
-    .categories {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 35px;
-    }
-
-    .category {
-      border: 1px solid var(--border);
-      background: white;
-      padding: 9px 16px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .category:hover,
-    .category.active {
-      background: var(--dark);
-      color: white;
-      border-color: var(--dark);
-    }
-
-    /* POSTS */
-
-    .posts {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
-
-    .post {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: .25s;
-    }
-
-    .post:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,.07);
-    }
-
-    .post-image {
-      height: 220px;
-    }
-
-    .post-content {
-      padding: 24px;
-    }
-
-    .post-category {
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .7px;
-    }
-
-    .post h3 {
-      font-size: 21px;
-      line-height: 1.25;
-      margin: 10px 0;
-      letter-spacing: -.5px;
-    }
-
-    .post p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    .post-meta {
-      font-size: 12px;
-      color: #999;
-    }
-
-    /* NEWSLETTER */
-
-    .newsletter {
-      margin: 100px 0;
-      padding: 65px;
-      background: #e9e7ff;
-      border-radius: var(--radius);
-      text-align: center;
-    }
-
-    .newsletter h2 {
-      font-size: 36px;
-      letter-spacing: -1.5px;
-      margin-bottom: 10px;
-    }
-
-    .newsletter p {
-      color: #666;
-      margin-bottom: 25px;
-    }
-
-    .newsletter-form {
-      max-width: 500px;
-      margin: auto;
-      display: flex;
-      gap: 8px;
-    }
-
-    .newsletter-form input {
-      flex: 1;
-      border: 1px solid #d8d6ee;
-      border-radius: 10px;
-      padding: 14px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .newsletter-form button {
-      border: none;
-      background: var(--accent);
-      color: white;
-      padding: 0 22px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* FOOTER */
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 35px 0;
-      margin-top: 50px;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer p {
-      color: #888;
-      font-size: 13px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 20px;
-      font-size: 13px;
-      color: #666;
-    }
-
-    /* SEARCH */
-
-    .search-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(8px);
-      display: none;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 120px;
-      z-index: 999;
-    }
-
-    .search-box {
-      width: min(600px, calc(100% - 30px));
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-    }
-
-    .search-box input {
-      width: 100%;
-      border: none;
-      outline: none;
-      font-size: 22px;
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width: 850px) {
-
-      nav {
-        display: none;
-      }
-
-      .featured {
-        grid-template-columns: 1fr;
-      }
-
-      .featured-image {
-        min-height: 260px;
-      }
-
-      .featured-content {
-        padding: 35px;
-      }
-
-      .posts {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-
-      .container {
-        width: min(100% - 24px, var(--max-width));
-      }
-
-      .hero {
-        padding: 60px 0 40px;
-      }
-
-      .hero h1 {
-        letter-spacing: -2px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .featured-content h2 {
-        font-size: 29px;
-      }
-
-      .posts {
-        grid-template-columns: 1fr;
-      }
-
-      .newsletter {
-        padding: 40px 20px;
-      }
-
-      .newsletter h2 {
-        font-size: 28px;
-      }
-
-      .newsletter-form {
-        flex-direction: column;
-      }
-
-      .newsletter-form button {
-        padding: 14px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gedlec — Haber, Spor, Ekonomi ve Teknoloji</title>
+<meta name="description" content="Gedlec — Güncel haberler, spor, ekonomi, teknoloji, piyasa ve yapay zekâ.">
+
+<style>
+:root{
+  --bg:#f6f7f9;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#111827;
+  --soft:#f0f2f5;
+  --green:#16803c;
+  --red:#c62828;
+  --shadow:0 8px 30px rgba(15,23,42,.06);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+a{text-decoration:none;color:inherit}
+button,input,textarea{font:inherit}
+
+.container{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.logo span{color:#4b5563}
+
+nav{
+  display:flex;
+  gap:22px;
+  align-items:center;
+}
+
+nav a{
+  font-size:14px;
+  font-weight:600;
+  color:#374151;
+}
+
+nav a:hover{color:#000}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:var(--soft);
+  padding:9px 12px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* MARKET */
+
+.market{
+  background:#111827;
+  color:white;
+  overflow:hidden;
+}
+
+.market-inner{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1px;
+}
+
+.market-item{
+  padding:16px 18px;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+
+.market-label{
+  color:#9ca3af;
+  font-size:12px;
+}
+
+.market-value{
+  margin-top:3px;
+  font-weight:800;
+  font-size:18px;
+}
+
+.market-change{
+  font-size:12px;
+  margin-top:2px;
+}
+
+.up{color:#5ee28b}
+.down{color:#ff7777}
+
+/* HERO */
+
+.hero{
+  padding:55px 0 35px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.5fr .8fr;
+  gap:25px;
+}
+
+.hero-main{
+  min-height:390px;
+  border-radius:24px;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:end;
+  color:white;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.85)),
+    url("https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1400&q=80")
+    center/cover;
+}
+
+.badge{
+  display:inline-block;
+  width:max-content;
+  background:#fff;
+  color:#111827;
+  border-radius:30px;
+  padding:5px 12px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.hero-main h1{
+  font-size:42px;
+  line-height:1.1;
+  max-width:700px;
+  letter-spacing:-1.5px;
+}
+
+.hero-main p{
+  margin-top:12px;
+  color:#e5e7eb;
+  max-width:650px;
+}
+
+.side-news{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.news-mini{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.news-mini small{
+  color:var(--muted);
+}
+
+.news-mini h3{
+  margin-top:6px;
+  font-size:18px;
+  line-height:1.3;
+}
+
+/* SECTIONS */
+
+section{
+  padding:30px 0;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:20px;
+}
+
+.section-head h2{
+  font-size:28px;
+  letter-spacing:-.7px;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+.card-img{
+  height:190px;
+  background-size:cover;
+  background-position:center;
+}
+
+.card-body{
+  padding:20px;
+}
+
+.card-body small{
+  color:var(--muted);
+}
+
+.card-body h3{
+  font-size:20px;
+  line-height:1.3;
+  margin:7px 0;
+}
+
+.card-body p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+/* SPORTS */
+
+.sports{
+  background:#fff;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+.sport-tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.sport-tabs button{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:30px;
+  padding:9px 16px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.sport-tabs button.active,
+.sport-tabs button:hover{
+  background:#111827;
+  color:white;
+}
+
+.sport-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+}
+
+.score-box,
+.standings{
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+}
+
+.score{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:15px;
+  align-items:center;
+  padding:17px 0;
+  border-bottom:1px solid var(--border);
+  text-align:center;
+}
+
+.score:last-child{border-bottom:0}
+
+.team{
+  font-weight:700;
+}
+
+.score-number{
+  font-size:20px;
+  font-weight:800;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+th,td{
+  padding:10px 6px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+
+th{color:var(--muted)}
+
+/* NEWS */
+
+.news-layout{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:25px;
+}
+
+.news-list{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.news-row{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:18px;
+}
+
+.news-thumb{
+  border-radius:12px;
+  min-height:120px;
+  background:center/cover;
+}
+
+.news-row h3{
+  font-size:19px;
+  line-height:1.3;
+}
+
+.news-row p{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:5px;
+}
+
+/* AI */
+
+.ai-section{
+  background:#111827;
+  color:#fff;
+  padding:50px 0;
+}
+
+.ai-box{
+  max-width:850px;
+  margin:auto;
+  background:#1f2937;
+  border:1px solid #374151;
+  border-radius:22px;
+  padding:25px;
+}
+
+.ai-title{
+  font-size:28px;
+  margin-bottom:5px;
+}
+
+.ai-desc{
+  color:#9ca3af;
+  margin-bottom:20px;
+}
+
+.chat{
+  height:300px;
+  overflow:auto;
+  background:#111827;
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:15px;
+}
+
+.message{
+  max-width:80%;
+  padding:11px 14px;
+  border-radius:14px;
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+.bot{
+  background:#374151;
+}
+
+.user{
+  background:#fff;
+  color:#111827;
+  margin-left:auto;
+}
+
+.chat-form{
+  display:flex;
+  gap:10px;
+}
+
+.chat-form input{
+  flex:1;
+  background:#111827;
+  color:#fff;
+  border:1px solid #4b5563;
+  border-radius:12px;
+  padding:13px;
+  outline:none;
+}
+
+.chat-form button{
+  border:0;
+  background:#fff;
+  color:#111827;
+  padding:0 20px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+/* DAILY */
+
+.daily{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.daily-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+}
+
+.daily-card .number{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.daily-card h3{
+  margin:7px 0;
+}
+
+/* ABOUT */
+
+.about{
+  background:#fff;
+  border-top:1px solid var(--border);
+}
+
+.about-box{
+  max-width:800px;
+}
+
+.about-box h2{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.about-box p{
+  color:#6b7280;
+}
+
+/* FOOTER */
+
+footer{
+  background:#111827;
+  color:#fff;
+  padding:45px 0 25px;
+  margin-top:30px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:40px;
+}
+
+.footer-title{
+  font-size:22px;
+  font-weight:800;
+}
+
+footer p,
+footer a{
+  color:#9ca3af;
+  font-size:14px;
+}
+
+footer h4{
+  margin-bottom:10px;
+}
+
+.copyright{
+  margin-top:35px;
+  padding-top:20px;
+  border-top:1px solid #374151;
+  color:#9ca3af;
+  font-size:13px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+  nav{display:none}
+  .menu-btn{display:block}
+
+  .market-inner{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero-grid,
+  .sport-grid,
+  .news-layout{
+    grid-template-columns:1fr;
+  }
+
+  .cards,
+  .daily{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero-main h1{font-size:34px}
+}
+
+@media(max-width:600px){
+  .market-inner{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .market-item{
+    padding:12px;
+  }
+
+  .market-value{font-size:16px}
+
+  .hero{
+    padding-top:25px;
+  }
+
+  .hero-main{
+    min-height:350px;
+    padding:25px;
+  }
+
+  .hero-main h1{
+    font-size:30px;
+  }
+
+  .cards,
+  .daily{
+    grid-template-columns:1fr;
+  }
+
+  .news-row{
+    grid-template-columns:1fr;
+  }
+
+  .news-thumb{
+    min-height:180px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-head{
+    display:block;
+  }
+
+  .section-head p{
+    margin-top:5px;
+  }
+}
+</style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header>
-  <div class="container navbar">
-
-    <a href="#" class="logo">
-      Fikir<span>Kutusu</span>
-    </a>
+  <div class="container nav">
+    <a href="#" class="logo">GED<span>LEC</span></a>
 
     <nav>
-      <a href="#">Ana Sayfa</a>
-      <a href="#yazilar">Yazılar</a>
-      <a href="#kategoriler">Kategoriler</a>
+      <a href="#haber">Haber</a>
+      <a href="#spor">Spor</a>
+      <a href="#ekonomi">Ekonomi</a>
+      <a href="#teknoloji">Teknoloji</a>
+      <a href="#yapayzeka">Yapay Zekâ</a>
       <a href="#hakkimizda">Hakkımızda</a>
     </nav>
 
-    <button class="search-btn" onclick="openSearch()" aria-label="Ara">
-      🔍
-    </button>
-
+    <button class="menu-btn">☰</button>
   </div>
 </header>
 
+<!-- LIVE MARKET -->
+<div class="market">
+  <div class="container market-inner">
+
+    <div class="market-item">
+      <div class="market-label">Borsa İstanbul</div>
+      <div class="market-value" id="borsa">10.842,15</div>
+      <div class="market-change up" id="borsaChange">▲ +0,82%</div>
+    </div>
+
+    <div class="market-item">
+      <div class="market-label">Altın / Gram</div>
+      <div class="market-value" id="altin">5.412,80 ₺</div>
+      <div class="market-change up">▲ +0,41%</div>
+    </div>
+
+    <div class="market-item">
+      <div class="market-label">Dolar</div>
+      <div class="market-value" id="dolar">—</div>
+      <div class="market-change">Güncel veri bekleniyor</div>
+    </div>
+
+    <div class="market-item">
+      <div class="market-label">Euro</div>
+      <div class="market-value" id="euro">—</div>
+      <div class="market-change">Güncel veri bekleniyor</div>
+    </div>
+
+    <div class="market-item">
+      <div class="market-label">Güncelleme</div>
+      <div class="market-value" id="clock">--:--</div>
+      <div class="market-change">Canlı takip</div>
+    </div>
+
+  </div>
+</div>
 
 <main>
 
-  <!-- HERO -->
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
 
-  <section class="hero container">
-
-    <div class="hero-content">
-
-      <span class="tag">YENİ NESİL BLOG</span>
-
-      <h1>
-        Merak ettiğin şeyleri
-        <span>keşfet.</span>
-      </h1>
-
+    <article class="hero-main">
+      <span class="badge">Günün Öne Çıkanı</span>
+      <h1>Türkiye ve dünyadan önemli gelişmeler tek yerde.</h1>
       <p>
-        Teknoloji, para, yaşam, fikirler ve günlük hayata dair
-        gerçekten işine yarayabilecek yazılar.
+        Haber, spor, ekonomi, teknoloji ve yaşam dünyasından
+        sade ve anlaşılır içerikler.
       </p>
+    </article>
+
+    <div class="side-news">
+
+      <article class="news-mini">
+        <small>SPOR</small>
+        <h3>Günün önemli karşılaşmaları ve spor gündemi</h3>
+      </article>
+
+      <article class="news-mini">
+        <small>EKONOMİ</small>
+        <h3>Piyasalarda bugün takip edilmesi gereken gelişmeler</h3>
+      </article>
+
+      <article class="news-mini">
+        <small>TEKNOLOJİ</small>
+        <h3>Yapay zekâ dünyasındaki son gelişmeler</h3>
+      </article>
 
     </div>
+  </div>
+</section>
 
-  </section>
+<!-- HABERLER -->
+<section id="haber">
+  <div class="container">
 
+    <div class="section-head">
+      <div>
+        <h2>Son Haberler</h2>
+        <p>Günün öne çıkan gelişmeleri</p>
+      </div>
+    </div>
 
-  <!-- ÖNE ÇIKAN -->
+    <div class="cards">
 
-  <section class="container">
+      <article class="card">
+        <div class="card-img"
+        style="background-image:url('https://images.unsplash.com/photo-1504711331083-9c9e9c92a7d2?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <small>GÜNDEM</small>
+          <h3>Günün öne çıkan gelişmeleri</h3>
+          <p>Türkiye ve dünyadan takip edilmesi gereken haberler.</p>
+        </div>
+      </article>
 
-    <article class="featured">
+      <article class="card">
+        <div class="card-img"
+        style="background-image:url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <small>EKONOMİ</small>
+          <h3>Piyasalarda yeni gün</h3>
+          <p>Döviz, altın ve borsa tarafındaki gelişmeler.</p>
+        </div>
+      </article>
 
-      <div class="featured-image"></div>
+      <article class="card">
+        <div class="card-img"
+        style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <small>TEKNOLOJİ</small>
+          <h3>Teknoloji dünyasında yeni dönem</h3>
+          <p>Yapay zekâ ve dijital dünyanın önemli gelişmeleri.</p>
+        </div>
+      </article>
 
-      <div class="featured-content">
+    </div>
+  </div>
+</section>
 
-        <span class="tag">ÖNE ÇIKAN</span>
+<!-- SPORTS -->
+<section class="sports" id="spor">
+  <div class="container">
 
-        <h2>
-          İnternette başarılı olmak için gerçekten ne gerekiyor?
-        </h2>
+    <div class="section-head">
+      <div>
+        <h2>⚽ Spor Merkezi</h2>
+        <p>Haberler, sonuçlar, fikstürler ve puan durumu</p>
+      </div>
+    </div>
 
-        <p>
-          Herkesin aynı şeyleri yaptığı bir dünyada farklılaşmanın
-          yollarını ve internette değer üretmenin gerçek mantığını
-          inceliyoruz.
-        </p>
+    <div class="sport-tabs">
+      <button class="active">Futbol</button>
+      <button>Basketbol</button>
+      <button>Tenis</button>
+      <button>Formula 1</button>
+    </div>
 
-        <a href="#" class="read-more">
-          Yazıyı Oku →
-        </a>
+    <div class="sport-grid">
+
+      <div class="score-box">
+
+        <h3>Sonuçlar</h3>
+
+        <div class="score">
+          <div class="team">Takım A</div>
+          <div class="score-number">2 - 1</div>
+          <div class="team">Takım B</div>
+        </div>
+
+        <div class="score">
+          <div class="team">Takım C</div>
+          <div class="score-number">0 - 0</div>
+          <div class="team">Takım D</div>
+        </div>
+
+        <div class="score">
+          <div class="team">Takım E</div>
+          <div class="score-number">3 - 2</div>
+          <div class="team">Takım F</div>
+        </div>
+
+        <h3 style="margin-top:25px">Yaklaşan Maçlar</h3>
+
+        <div class="score">
+          <div class="team">Takım G</div>
+          <div>20:00</div>
+          <div class="team">Takım H</div>
+        </div>
 
       </div>
 
-    </article>
+      <div class="standings">
 
-  </section>
+        <h3>Puan Durumu</h3>
 
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Takım</th>
+              <th>O</th>
+              <th>P</th>
+            </tr>
+          </thead>
 
-  <!-- YAZILAR -->
+          <tbody>
+            <tr><td>1</td><td>Takım A</td><td>10</td><td>25</td></tr>
+            <tr><td>2</td><td>Takım B</td><td>10</td><td>22</td></tr>
+            <tr><td>3</td><td>Takım C</td><td>10</td><td>20</td></tr>
+            <tr><td>4</td><td>Takım D</td><td>10</td><td>18</td></tr>
+            <tr><td>5</td><td>Takım E</td><td>10</td><td>16</td></tr>
+          </tbody>
+        </table>
 
-  <section class="container" id="yazilar">
-
-    <div class="section-header">
-      <h2>Son Yazılar</h2>
-      <a href="#">Tüm Yazılar →</a>
-    </div>
-
-
-    <!-- KATEGORİLER -->
-
-    <div class="categories" id="kategoriler">
-
-      <button class="category active" onclick="filterPosts('all')">
-        Tümü
-      </button>
-
-      <button class="category" onclick="filterPosts('teknoloji')">
-        Teknoloji
-      </button>
-
-      <button class="category" onclick="filterPosts('para')">
-        Para
-      </button>
-
-      <button class="category" onclick="filterPosts('yasam')">
-        Yaşam
-      </button>
-
-      <button class="category" onclick="filterPosts('fikir')">
-        Fikir
-      </button>
+      </div>
 
     </div>
+  </div>
+</section>
 
+<!-- SPOR HABERLERİ -->
+<section>
+  <div class="container">
 
-    <div class="posts">
+    <div class="section-head">
+      <div>
+        <h2>Spor Haberleri</h2>
+        <p>Günün spor gündeminden seçmeler</p>
+      </div>
+    </div>
 
-      <!-- POST 1 -->
+    <div class="news-list">
 
-      <article class="post" data-category="teknoloji">
+      <article class="news-row">
+        <div class="news-thumb"
+        style="background-image:url('https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80')"></div>
 
-        <img
-          class="post-image"
-          src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
-          alt="Teknoloji"
-        >
-
-        <div class="post-content">
-
-          <span class="post-category">Teknoloji</span>
-
-          <h3>
-            Yapay zekâ hayatımızı gerçekten nasıl değiştirecek?
-          </h3>
-
+        <div>
+          <small>FUTBOL</small>
+          <h3>Futbol dünyasında hareketli gün</h3>
           <p>
-            Önümüzdeki birkaç yılda günlük hayatımızda
-            nelerin değişebileceğine yakından bakalım.
+            Takımların hazırlıkları, transfer gelişmeleri ve maç
+            öncesi son durumlar.
           </p>
-
-          <span class="post-meta">
-            8 Ekim 2026 · 6 dk okuma
-          </span>
-
         </div>
-
       </article>
 
+      <article class="news-row">
+        <div class="news-thumb"
+        style="background-image:url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=700&q=80')"></div>
 
-      <!-- POST 2 -->
-
-      <article class="post" data-category="para">
-
-        <img
-          class="post-image"
-          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80"
-          alt="Para ve finans"
-        >
-
-        <div class="post-content">
-
-          <span class="post-category">Para</span>
-
-          <h3>
-            Aylık giderlerini azaltmanın 7 basit yolu
-          </h3>
-
+        <div>
+          <small>BASKETBOL</small>
+          <h3>Basketbol gündeminde son gelişmeler</h3>
           <p>
-            Daha fazla kazanmak kadar elindeki parayı
-            doğru yönetmek de önemli.
+            Avrupa ve dünya basketbolundan öne çıkan gelişmeler.
           </p>
-
-          <span class="post-meta">
-            7 Ekim 2026 · 5 dk okuma
-          </span>
-
         </div>
-
       </article>
 
+      <article class="news-row">
+        <div class="news-thumb"
+        style="background-image:url('https://images.unsplash.com/photo-1530915365347-6aa3f7c6c3d0?auto=format&fit=crop&w=700&q=80')"></div>
 
-      <!-- POST 3 -->
-
-      <article class="post" data-category="yasam">
-
-        <img
-          class="post-image"
-          src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800&q=80"
-          alt="Yaşam"
-        >
-
-        <div class="post-content">
-
-          <span class="post-category">Yaşam</span>
-
-          <h3>
-            Daha az şeyle daha iyi yaşamak mümkün mü?
-          </h3>
-
+        <div>
+          <small>SPOR</small>
+          <h3>Haftanın spor gündemi</h3>
           <p>
-            Tüketim alışkanlıklarımızı değiştirdiğimizde
-            hayatımız gerçekten kolaylaşıyor mu?
+            Günün önemli karşılaşmaları ve spor dünyasından gelişmeler.
           </p>
-
-          <span class="post-meta">
-            5 Ekim 2026 · 7 dk okuma
-          </span>
-
         </div>
-
-      </article>
-
-
-      <!-- POST 4 -->
-
-      <article class="post" data-category="fikir">
-
-        <img
-          class="post-image"
-          src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"
-          alt="Fikirler"
-        >
-
-        <div class="post-content">
-
-          <span class="post-category">Fikir</span>
-
-          <h3>
-            İnternette kimsenin konuşmadığı 5 ilginç fikir
-          </h3>
-
-          <p>
-            Belki de yeni bir şey üretmenin zamanı gelmiştir.
-          </p>
-
-          <span class="post-meta">
-            3 Ekim 2026 · 4 dk okuma
-          </span>
-
-        </div>
-
-      </article>
-
-
-      <!-- POST 5 -->
-
-      <article class="post" data-category="teknoloji">
-
-        <img
-          class="post-image"
-          src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=80"
-          alt="Bilgisayar"
-        >
-
-        <div class="post-content">
-
-          <span class="post-category">Teknoloji</span>
-
-          <h3>
-            Yeni bir bilgisayar alırken yapılan 10 hata
-          </h3>
-
-          <p>
-            Paranızı gereksiz özelliklere harcamadan
-            doğru bilgisayarı seçmenin yolları.
-          </p>
-
-          <span class="post-meta">
-            1 Ekim 2026 · 8 dk okuma
-          </span>
-
-        </div>
-
-      </article>
-
-
-      <!-- POST 6 -->
-
-      <article class="post" data-category="para">
-
-        <img
-          class="post-image"
-          src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=800&q=80"
-          alt="Finans"
-        >
-
-        <div class="post-content">
-
-          <span class="post-category">Para</span>
-
-          <h3>
-            Küçük miktarlarla yatırım yapılabilir mi?
-          </h3>
-
-          <p>
-            Yatırıma başlamak isteyenler için temel
-            noktaları sade bir şekilde ele alıyoruz.
-          </p>
-
-          <span class="post-meta">
-            29 Eylül 2026 · 6 dk okuma
-          </span>
-
-        </div>
-
       </article>
 
     </div>
 
-  </section>
+  </div>
+</section>
 
+<!-- EKONOMİ -->
+<section id="ekonomi">
+  <div class="container">
 
-  <!-- NEWSLETTER -->
+    <div class="section-head">
+      <div>
+        <h2>Ekonomi</h2>
+        <p>Piyasalar ve ekonomi gündemi</p>
+      </div>
+    </div>
 
-  <section class="container">
+    <div class="cards">
 
-    <div class="newsletter">
+      <article class="card">
+        <div class="card-body">
+          <small>PİYASA</small>
+          <h3>Döviz piyasasında günün görünümü</h3>
+          <p>Dolar ve Euro hareketleri takip ediliyor.</p>
+        </div>
+      </article>
 
-      <h2>Yeni yazıları kaçırma.</h2>
+      <article class="card">
+        <div class="card-body">
+          <small>ALTIN</small>
+          <h3>Altın fiyatlarında son durum</h3>
+          <p>Gram, çeyrek ve ons altın piyasası.</p>
+        </div>
+      </article>
 
-      <p>
-        Haftada bir kez, gerçekten okunmaya değer yazıları
-        e-posta adresine gönderelim.
-      </p>
+      <article class="card">
+        <div class="card-body">
+          <small>BORSA</small>
+          <h3>Borsa İstanbul gündemi</h3>
+          <p>Endekslerdeki hareketler ve yatırımcı gündemi.</p>
+        </div>
+      </article>
 
-      <form class="newsletter-form" onsubmit="subscribe(event)">
+    </div>
+  </div>
+</section>
 
+<!-- TEKNOLOJİ -->
+<section id="teknoloji">
+  <div class="container">
+
+    <div class="section-head">
+      <div>
+        <h2>Teknoloji</h2>
+        <p>Dijital dünya ve yapay zekâ</p>
+      </div>
+    </div>
+
+    <div class="cards">
+
+      <article class="card">
+        <div class="card-body">
+          <small>YAPAY ZEKÂ</small>
+          <h3>Yapay zekâ hayatımızı nasıl değiştiriyor?</h3>
+          <p>Yeni teknolojiler ve günlük hayata etkileri.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-body">
+          <small>DİJİTAL</small>
+          <h3>İnternet dünyasında yeni gelişmeler</h3>
+          <p>Güncel dijital trendler ve internet teknolojileri.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-body">
+          <small>BİLİM</small>
+          <h3>Bilim dünyasından dikkat çeken gelişmeler</h3>
+          <p>Bilim ve teknoloji alanındaki yeni çalışmalar.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- DAILY -->
+<section>
+  <div class="container">
+
+    <div class="section-head">
+      <div>
+        <h2>Günün Yazıları</h2>
+        <p>Her gün yenilenen özgün içerikler</p>
+      </div>
+    </div>
+
+    <div class="daily">
+
+      <article class="daily-card">
+        <div class="number">01 — GÜNLÜK YAZI</div>
+        <h3>Bugünün gündemini anlamak</h3>
+        <p>
+          Günün önemli gelişmelerini sade ve anlaşılır şekilde
+          değerlendiren günlük yazı.
+        </p>
+      </article>
+
+      <article class="daily-card">
+        <div class="number">02 — GÜNLÜK YAZI</div>
+        <h3>Bugün ne konuşuluyor?</h3>
+        <p>
+          Haber, ekonomi, teknoloji ve spor gündeminden kısa değerlendirme.
+        </p>
+      </article>
+
+      <article class="daily-card">
+        <div class="number">03 — GÜNLÜK YAZI</div>
+        <h3>Günün kısa özeti</h3>
+        <p>
+          Yoğun gündemi birkaç dakikada takip edebilmeniz için özet.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- AI CHAT -->
+<section class="ai-section" id="yapayzeka">
+  <div class="container">
+
+    <div class="ai-box">
+
+      <div class="ai-title">🤖 Yapay Zekâ ile Sohbet</div>
+
+      <div class="ai-desc">
+        Haberleri, spor gündemini, ekonomiyi veya merak ettiğiniz
+        herhangi bir konuyu sorabilirsiniz.
+      </div>
+
+      <div class="chat" id="chat">
+
+        <div class="message bot">
+          Merhaba. Ben Gedlec'in yapay zekâ asistanıyım.
+          Sana nasıl yardımcı olabilirim?
+        </div>
+
+      </div>
+
+      <form class="chat-form" id="chatForm">
         <input
-          type="email"
-          placeholder="E-posta adresin"
-          required
+          id="chatInput"
+          type="text"
+          placeholder="Bir soru yazın..."
+          autocomplete="off"
         >
-
-        <button type="submit">
-          Abone Ol
-        </button>
-
+        <button type="submit">Gönder</button>
       </form>
 
     </div>
 
-  </section>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="hakkimizda">
+  <div class="container">
+
+    <div class="about-box">
+
+      <h2>Hakkımızda</h2>
+
+      <p>
+        <strong>Zülfükar Gedlec</strong> tarafından hazırlanan Gedlec,
+        haber, spor, ekonomi, teknoloji ve günlük yaşam içeriklerini
+        sade ve anlaşılır bir şekilde bir araya getirmeyi amaçlayan
+        bağımsız bir dijital yayın platformudur.
+      </p>
+
+      <br>
+
+      <p>
+        Amacımız okuyucuyu gereksiz kalabalıktan uzak tutmak;
+        önemli gelişmeleri temiz, anlaşılır ve saygılı bir yayın
+        anlayışıyla sunmaktır.
+      </p>
+
+    </div>
+
+  </div>
+</section>
 
 </main>
 
-
 <!-- FOOTER -->
+<footer>
 
-<footer id="hakkimizda">
+  <div class="container">
 
-  <div class="container footer-content">
+    <div class="footer-grid">
 
-    <p>
-      © 2026 FikirKutusu. Tüm hakları saklıdır.
-    </p>
+      <div>
+        <div class="footer-title">GEDLEC</div>
+        <p>
+          Haber, spor, ekonomi, teknoloji ve yapay zekâ.
+          Sade, temiz ve reklamsız.
+        </p>
+      </div>
 
-    <div class="footer-links">
-      <a href="#">Gizlilik</a>
-      <a href="#">İletişim</a>
-      <a href="#">Hakkımızda</a>
+      <div>
+        <h4>Menü</h4>
+        <p><a href="#haber">Haberler</a></p>
+        <p><a href="#spor">Spor</a></p>
+        <p><a href="#ekonomi">Ekonomi</a></p>
+        <p><a href="#teknoloji">Teknoloji</a></p>
+      </div>
+
+      <div>
+        <h4>İletişim</h4>
+        <p><a href="mailto:info@gedlec.com">info@gedlec.com</a></p>
+        <p><a href="#hakkimizda">Hakkımızda</a></p>
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © 2026 Gedlec — Tüm hakları saklıdır.
     </div>
 
   </div>
 
 </footer>
 
-
-<!-- SEARCH -->
-
-<div class="search-overlay" id="searchOverlay" onclick="closeSearch()">
-
-  <div class="search-box" onclick="event.stopPropagation()">
-
-    <input
-      type="search"
-      id="searchInput"
-      placeholder="Ne arıyorsun?"
-      oninput="searchPosts()"
-    >
-
-  </div>
-
-</div>
-
-
 <script>
 
-  /* ARAMA */
+/* SAAT */
 
-  function openSearch() {
-    document.getElementById("searchOverlay").style.display = "flex";
-    document.getElementById("searchInput").focus();
-  }
+function updateClock(){
 
-  function closeSearch() {
-    document.getElementById("searchOverlay").style.display = "none";
-  }
+  const now = new Date();
 
-
-  /* KATEGORİ FİLTRESİ */
-
-  function filterPosts(category) {
-
-    const posts = document.querySelectorAll(".post");
-    const buttons = document.querySelectorAll(".category");
-
-    buttons.forEach(button => {
-      button.classList.remove("active");
+  document.getElementById("clock").textContent =
+    now.toLocaleTimeString("tr-TR",{
+      hour:"2-digit",
+      minute:"2-digit"
     });
 
-    event.target.classList.add("active");
+}
 
-    posts.forEach(post => {
+updateClock();
+setInterval(updateClock,1000);
 
-      if (category === "all" ||
-          post.dataset.category === category) {
 
-        post.style.display = "block";
+/* AI DEMO CHAT
+   Gerçek AI için backend/API bağlanacak.
+*/
 
-      } else {
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const chat = document.getElementById("chat");
 
-        post.style.display = "none";
+chatForm.addEventListener("submit",function(e){
 
-      }
+  e.preventDefault();
 
-    });
+  const text = chatInput.value.trim();
+
+  if(!text) return;
+
+  const userMessage = document.createElement("div");
+
+  userMessage.className="message user";
+  userMessage.textContent=text;
+
+  chat.appendChild(userMessage);
+
+  chatInput.value="";
+
+  setTimeout(()=>{
+
+    const botMessage=document.createElement("div");
+
+    botMessage.className="message bot";
+
+    botMessage.textContent=
+      "Sorunuzu aldım. Gerçek yapay zekâ bağlantısı aktif edildiğinde bu bölüm güncel bilgilerle yanıt verecek.";
+
+    chat.appendChild(botMessage);
+
+    chat.scrollTop=chat.scrollHeight;
+
+  },600);
+
+});
+
+
+/* ÖRNEK CANLI VERİ ALANI
+   Gerçek API bağlandığında bu fonksiyon kullanılacak.
+*/
+
+async function getMarketData(){
+
+  /*
+  Örnek:
+
+  const response = await fetch("SENIN_API_ADRESIN");
+  const data = await response.json();
+
+  document.getElementById("dolar").textContent =
+      data.dolar + " ₺";
+
+  document.getElementById("euro").textContent =
+      data.euro + " ₺";
+  */
+
+}
+
+getMarketData();
+
+
+/* MOBİL MENÜ */
+
+const menuBtn=document.querySelector(".menu-btn");
+const nav=document.querySelector("nav");
+
+menuBtn.addEventListener("click",()=>{
+
+  if(nav.style.display==="flex"){
+    nav.style.display="";
+  }else{
+    nav.style.display="flex";
+    nav.style.flexDirection="column";
+    nav.style.position="absolute";
+    nav.style.top="72px";
+    nav.style.left="0";
+    nav.style.right="0";
+    nav.style.padding="20px";
+    nav.style.background="#fff";
+    nav.style.borderBottom="1px solid #e5e7eb";
   }
 
-
-  /* ARAMA */
-
-  function searchPosts() {
-
-    const query =
-      document.getElementById("searchInput")
-      .value
-      .toLowerCase();
-
-    const posts = document.querySelectorAll(".post");
-
-    posts.forEach(post => {
-
-      const text = post.innerText.toLowerCase();
-
-      post.style.display =
-        text.includes(query) ? "block" : "none";
-
-    });
-
-  }
-
-
-  /* NEWSLETTER */
-
-  function subscribe(event) {
-
-    event.preventDefault();
-
-    const email =
-      event.target.querySelector("input").value;
-
-    alert(
-      "Teşekkürler! " +
-      email +
-      " adresi listeye eklendi."
-    );
-
-    event.target.reset();
-  }
-
-
-  /* ESC TUŞU */
-
-  document.addEventListener("keydown", function(event) {
-
-    if (event.key === "Escape") {
-      closeSearch();
-    }
-
-  });
+});
 
 </script>
 
